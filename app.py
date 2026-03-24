@@ -140,7 +140,7 @@ st.markdown("""
 <div class="main-header">
     <h2 style="margin:0;font-weight:700;letter-spacing:-0.5px">ANALYSE QUANTITATIVE FX</h2>
     <p style="color:#666666;font-size:13px;margin:5px 0 0 0">
-        Intelligence Artificielle — Gestion de Portefeuille Multi-Actifs — Équipe 487
+        Gestion de Portefeuille Multi-Actifs — Équipe 487
     </p>
 </div>
 """, unsafe_allow_html=True)
