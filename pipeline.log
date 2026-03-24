@@ -1,0 +1,844 @@
+20:27:05 | INFO | ============================================================
+20:27:05 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260323_202705)
+20:27:05 | INFO | ============================================================
+20:27:05 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+20:27:18 | INFO | SUCCESS   [data.py] terminé en 13.6s
+20:27:18 | INFO |   stdout | saved : USDPKR=X.csv
+20:27:18 | INFO |   stdout | Telechargement USDCZK=X ...
+20:27:18 | INFO |   stdout | saved : USDCZK=X.csv
+20:27:18 | INFO |   stdout | Telechargement USDHUF=X ...
+20:27:18 | INFO |   stdout | saved : USDHUF=X.csv
+20:27:18 | INFO | STARTING  [features.py] Engineering des indicateurs + Hurst (timeout=180s)
+20:27:40 | INFO | SUCCESS   [features.py] terminé en 21.6s
+20:27:40 | INFO | STARTING  [ml_pair_selection.py] Sélection ML des paires actives (timeout=300s)
+20:32:23 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 282.6s
+20:32:23 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts) (timeout=180s)
+20:32:27 | INFO | SUCCESS   [backtest_strategies.py] terminé en 4.7s
+20:32:27 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+20:32:30 | INFO | SUCCESS   [risk_manager.py] terminé en 2.3s
+20:32:30 | INFO | STARTING  [optimize_strategies.py] Allocation Black-Litterman (timeout=120s)
+20:33:26 | INFO | SUCCESS   [optimize_strategies.py] terminé en 55.9s
+20:33:26 | INFO |   stdout | ==================================================
+20:33:26 | INFO |   stdout |   ALLOCATION ML DYNAMIQUE — PROCHAINE PÉRIODE
+20:33:26 | INFO |   stdout | ==================================================
+20:33:26 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+20:33:27 | INFO | SUCCESS   [main_trading.py] terminé en 1.7s
+20:33:27 | INFO |   stdout | Date    Pair     Strategy Direction    Price  Size_USD  Vol_20  Hurst
+20:33:27 | INFO |   stdout | 0  2026-02-23  USDHKD     Momentum      LONG   7.8135      2000  0.0002   0.86
+20:33:27 | INFO |   stdout | 1  2026-02-23  USDTRY  Carry Trade     SHORT  43.8082      4681  0.0013   0.35
+20:33:27 | INFO | ============================================================
+20:33:27 | INFO | PIPELINE COMPLET en 6.37 min — 7/7 étapes OK
+20:33:27 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+20:33:27 | INFO | ============================================================
+20:36:01 | INFO | ============================================================
+20:36:01 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260323_203601)
+20:36:01 | INFO | ============================================================
+20:36:01 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+20:36:07 | INFO | SUCCESS   [data.py] terminé en 6.8s
+20:36:07 | INFO |   stdout | saved : USDPKR=X.csv
+20:36:07 | INFO |   stdout | Telechargement USDCZK=X ...
+20:36:07 | INFO |   stdout | saved : USDCZK=X.csv
+20:36:07 | INFO |   stdout | Telechargement USDHUF=X ...
+20:36:07 | INFO |   stdout | saved : USDHUF=X.csv
+20:36:07 | INFO | STARTING  [features.py] Engineering des indicateurs + Hurst (timeout=180s)
+20:36:50 | INFO | SUCCESS   [features.py] terminé en 42.9s
+20:36:50 | INFO | STARTING  [ml_pair_selection.py] Sélection ML des paires actives (timeout=300s)
+20:41:50 | ERROR | TIMEOUT   [ml_pair_selection.py] dépasse 300s
+20:41:50 | ERROR | PIPELINE INTERROMPU : Sélection ML des paires actives — voir pipeline.log
+00:40:10 | INFO | ============================================================
+00:40:10 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_004010)
+00:40:10 | INFO | ============================================================
+00:40:10 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+00:40:16 | INFO | SUCCESS   [data.py] terminé en 6.3s
+00:40:16 | INFO |   stdout | saved : USDPKR=X.csv
+00:40:16 | INFO |   stdout | Telechargement USDCZK=X ...
+00:40:16 | INFO |   stdout | saved : USDCZK=X.csv
+00:40:16 | INFO |   stdout | Telechargement USDHUF=X ...
+00:40:16 | INFO |   stdout | saved : USDHUF=X.csv
+00:40:16 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+00:40:39 | INFO | SUCCESS   [features.py] terminé en 22.4s
+00:40:39 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+00:40:53 | INFO | SUCCESS   [ic_audit.py] terminé en 14.5s
+00:40:53 | INFO |   stdout | Exportes :
+00:40:53 | INFO |   stdout |   ic_audit_pair_detail.csv
+00:40:53 | INFO |   stdout |   ic_audit_pair_scores.csv
+00:40:53 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+00:40:53 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+00:40:53 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+00:40:59 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 6.0s
+00:40:59 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+00:41:01 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.2s
+00:41:01 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+00:41:03 | INFO | SUCCESS   [strategy_ml.py] terminé en 2.3s
+00:41:03 | INFO |   stdout | USDCLP     0.458           0.348     0.097        0.097
+00:41:03 | INFO |   stdout | USDCNY     0.358           0.265     0.188        0.188
+00:41:03 | INFO |   stdout | USDHKD     0.406           0.198     0.198        0.198
+00:41:03 | INFO |   stdout | USDTRY     0.479           0.168     0.134        0.219
+00:41:03 | INFO |   stdout | USDMXN     0.306           0.346     0.123        0.226
+00:41:03 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+00:41:05 | INFO | SUCCESS   [risk_manager.py] terminé en 2.1s
+00:41:05 | INFO | STARTING  [optimize_strategies.py] Allocation globale Black-Litterman (timeout=120s)
+00:41:56 | INFO | SUCCESS   [optimize_strategies.py] terminé en 50.9s
+00:41:56 | INFO |   stdout | ==================================================
+00:41:56 | INFO |   stdout |   ALLOCATION ML DYNAMIQUE — PROCHAINE PÉRIODE
+00:41:56 | INFO |   stdout | ==================================================
+00:41:56 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+00:41:57 | INFO | SUCCESS   [main_trading.py] terminé en 1.2s
+00:41:57 | INFO |   stdout | Date    Pair        Strategy Direction     Price  Size_USD  Vol_20  Hurst
+00:41:57 | INFO |   stdout | 0  2026-03-16  USDCLP        Momentum      LONG  916.7100      1000  0.0108   0.81
+00:41:57 | INFO |   stdout | 1  2026-03-16  USDCNY        Momentum     SHORT    6.8961      1000  0.0024   0.61
+00:41:57 | INFO |   stdout | 2  2026-03-16  USDMXN  Mean-Reversion     SHORT   17.8864      4709  0.0087   0.82
+00:41:57 | INFO |   stdout | 3  2026-03-16  USDTRY        Momentum     SHORT   44.1710      2000  0.0009   0.37
+00:41:57 | INFO | ============================================================
+00:41:57 | INFO | PIPELINE COMPLET en 1.78 min — 9/9 étapes OK
+00:41:57 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+00:41:57 | INFO | ============================================================
+00:48:20 | INFO | ============================================================
+00:48:20 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_004820)
+00:48:20 | INFO | ============================================================
+00:48:20 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+00:48:27 | INFO | SUCCESS   [data.py] terminé en 7.0s
+00:48:27 | INFO |   stdout | saved : USDPKR=X.csv
+00:48:27 | INFO |   stdout | Telechargement USDCZK=X ...
+00:48:27 | INFO |   stdout | saved : USDCZK=X.csv
+00:48:27 | INFO |   stdout | Telechargement USDHUF=X ...
+00:48:27 | INFO |   stdout | saved : USDHUF=X.csv
+00:48:27 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+00:48:51 | INFO | SUCCESS   [features.py] terminé en 23.3s
+00:48:51 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+00:49:07 | INFO | SUCCESS   [ic_audit.py] terminé en 16.7s
+00:49:07 | INFO |   stdout | Exportes :
+00:49:07 | INFO |   stdout |   ic_audit_pair_detail.csv
+00:49:07 | INFO |   stdout |   ic_audit_pair_scores.csv
+00:49:07 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+00:49:07 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+00:49:07 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+00:49:14 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 6.5s
+00:49:14 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+00:49:15 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.2s
+00:49:15 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+00:49:17 | INFO | SUCCESS   [strategy_ml.py] terminé en 2.1s
+00:49:17 | INFO |   stdout | USDCLP     0.458           0.348     0.097        0.097
+00:49:17 | INFO |   stdout | USDCNY     0.358           0.265     0.188        0.188
+00:49:17 | INFO |   stdout | USDHKD     0.406           0.198     0.198        0.198
+00:49:17 | INFO |   stdout | USDTRY     0.479           0.168     0.134        0.219
+00:49:17 | INFO |   stdout | USDMXN     0.306           0.346     0.123        0.226
+00:49:17 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+00:49:18 | INFO | SUCCESS   [risk_manager.py] terminé en 0.9s
+00:49:18 | INFO | STARTING  [optimize_strategies.py] Allocation globale Black-Litterman (timeout=120s)
+00:50:11 | INFO | SUCCESS   [optimize_strategies.py] terminé en 53.0s
+00:50:11 | INFO |   stdout | ==================================================
+00:50:11 | INFO |   stdout |   ALLOCATION ML DYNAMIQUE — PROCHAINE PÉRIODE
+00:50:11 | INFO |   stdout | ==================================================
+00:50:11 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+00:50:12 | INFO | SUCCESS   [main_trading.py] terminé en 1.0s
+00:50:12 | INFO |   stdout | Date    Pair        Strategy Direction     Price  Size_USD  Vol_20  Hurst
+00:50:12 | INFO |   stdout | 0  2026-03-16  USDCLP        Momentum      LONG  916.7100      1000  0.0108   0.81
+00:50:12 | INFO |   stdout | 1  2026-03-16  USDCNY        Momentum     SHORT    6.8961      1000  0.0024   0.61
+00:50:12 | INFO |   stdout | 2  2026-03-16  USDMXN  Mean-Reversion     SHORT   17.8864      4709  0.0087   0.82
+00:50:12 | INFO |   stdout | 3  2026-03-16  USDTRY        Momentum     SHORT   44.1710      2000  0.0009   0.37
+00:50:12 | INFO | ============================================================
+00:50:12 | INFO | PIPELINE COMPLET en 1.86 min — 9/9 étapes OK
+00:50:12 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+00:50:12 | INFO | ============================================================
+01:39:29 | INFO | ============================================================
+01:39:29 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_013929)
+01:39:29 | INFO | ============================================================
+01:39:29 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+01:39:38 | INFO | SUCCESS   [data.py] terminé en 9.4s
+01:39:38 | INFO |   stdout | saved : USDPKR=X.csv
+01:39:38 | INFO |   stdout | Telechargement USDCZK=X ...
+01:39:38 | INFO |   stdout | saved : USDCZK=X.csv
+01:39:38 | INFO |   stdout | Telechargement USDHUF=X ...
+01:39:38 | INFO |   stdout | saved : USDHUF=X.csv
+01:39:38 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+01:41:10 | INFO | SUCCESS   [features.py] terminé en 91.8s
+01:41:10 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+01:41:34 | INFO | SUCCESS   [ic_audit.py] terminé en 23.7s
+01:41:34 | INFO |   stdout | Exportes :
+01:41:34 | INFO |   stdout |   ic_audit_pair_detail.csv
+01:41:34 | INFO |   stdout |   ic_audit_pair_scores.csv
+01:41:34 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+01:41:34 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+01:41:34 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+01:41:36 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.2s
+01:41:36 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+01:41:38 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.8s
+01:41:38 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+01:41:45 | INFO | SUCCESS   [strategy_ml.py] terminé en 7.3s
+01:41:45 | INFO |   stdout | USDPKR     0.005           0.647     0.016        0.332
+01:41:45 | INFO |   stdout | USDCNY     0.447           0.211     0.171        0.171
+01:41:45 | INFO |   stdout | USDHKD     0.289           0.237     0.237        0.237
+01:41:45 | INFO |   stdout | USDTRY     0.440           0.000     0.001        0.559
+01:41:45 | INFO |   stdout | USDMXN     0.500           0.246     0.152        0.101
+01:41:45 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+01:41:48 | INFO | SUCCESS   [risk_manager.py] terminé en 2.5s
+01:41:48 | INFO | STARTING  [optimize_strategies.py] Allocation globale Black-Litterman (timeout=120s)
+01:42:32 | ERROR | FAILED    [optimize_strategies.py] code=1073807364 (44.3s)
+01:42:32 | ERROR |   2026-03-24 01:41:49,180 — INFO — Données chargées : 2478 jours, 4 stratégies (2016-09-08 \u2192 2026-03-17).
+01:42:32 | ERROR |   2026-03-24 01:41:49,180 — INFO — Construction du dataset MTF (fenêtres : [20, 40, 60])…
+01:42:32 | ERROR |   2026-03-24 01:42:10,646 — INFO — Dataset : 2398 samples, 96 features, 4 assets.
+01:42:32 | ERROR |   2026-03-24 01:42:10,646 — INFO — Walk-forward validation (5 folds)…
+01:42:32 | ERROR |   2026-03-24 01:42:11,868 — INFO —   Fold 1/5 — MAE RF: 0.2030 | MAE MLP: 0.4585
+01:42:32 | ERROR |   2026-03-24 01:42:14,308 — INFO —   Fold 2/5 — MAE RF: 0.1971 | MAE MLP: 0.2507
+01:42:32 | ERROR |   2026-03-24 01:42:18,218 — INFO —   Fold 3/5 — MAE RF: 0.2110 | MAE MLP: 0.2748
+01:42:32 | ERROR |   2026-03-24 01:42:23,868 — INFO —   Fold 4/5 — MAE RF: 0.2040 | MAE MLP: 0.3787
+01:42:32 | ERROR |   2026-03-24 01:42:31,638 — INFO —   Fold 5/5 — MAE RF: 0.2068 | MAE MLP: 0.3075
+01:42:32 | ERROR |   2026-03-24 01:42:31,639 — INFO — MAE moyenne — RF: 0.2044 | MLP: 0.3340
+01:42:32 | ERROR |   2026-03-24 01:42:31,639 — INFO — Entraînement final sur 2398 samples…
+01:42:32 | ERROR | PIPELINE INTERROMPU : Allocation globale Black-Litterman — voir pipeline.log
+10:47:53 | INFO | ============================================================
+10:47:53 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_104753)
+10:47:53 | INFO | ============================================================
+10:47:53 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+10:48:01 | INFO | SUCCESS   [data.py] terminé en 8.7s
+10:48:01 | INFO |   stdout | saved : USDPKR=X.csv
+10:48:01 | INFO |   stdout | Telechargement USDCZK=X ...
+10:48:01 | INFO |   stdout | saved : USDCZK=X.csv
+10:48:01 | INFO |   stdout | Telechargement USDHUF=X ...
+10:48:01 | INFO |   stdout | saved : USDHUF=X.csv
+10:48:01 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+10:48:25 | INFO | SUCCESS   [features.py] terminé en 23.2s
+10:48:25 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+10:48:49 | INFO | SUCCESS   [ic_audit.py] terminé en 24.8s
+10:48:49 | INFO |   stdout | Exportes :
+10:48:49 | INFO |   stdout |   ic_audit_pair_detail.csv
+10:48:49 | INFO |   stdout |   ic_audit_pair_scores.csv
+10:48:49 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+10:48:49 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+10:48:49 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+10:48:52 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 3.0s
+10:48:52 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+10:48:54 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.6s
+10:48:54 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+10:49:04 | INFO | SUCCESS   [strategy_ml.py] terminé en 9.8s
+10:49:04 | INFO |   stdout | USDCNY     0.103           0.434     0.245        0.218
+10:49:04 | INFO |   stdout | USDZAR     0.409           0.295     0.056        0.241
+10:49:04 | INFO |   stdout | USDPKR     0.015           0.476     0.288        0.220
+10:49:04 | INFO |   stdout | USDTRY     0.400           0.063     0.053        0.484
+10:49:04 | INFO |   stdout | USDMXN     0.253           0.065     0.682        0.000
+10:49:04 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+10:49:07 | INFO | SUCCESS   [risk_manager.py] terminé en 2.8s
+10:49:07 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman → optimal_weights.csv (timeout=120s)
+10:49:07 | INFO | SUCCESS   [black_litterman.py] terminé en 0.8s
+10:49:07 | INFO |   stdout |   Momentum               9.1%  ###
+10:49:07 | INFO |   stdout |   Mean-Reversion        34.8%  #############
+10:49:07 | INFO |   stdout |   Breakout              31.8%  ############
+10:49:07 | INFO |   stdout |   Carry Trade           24.3%  #########
+10:49:07 | INFO |   stdout | =============================================
+10:49:07 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+10:49:09 | INFO | SUCCESS   [main_trading.py] terminé en 1.5s
+10:49:09 | INFO |   stdout | Date    Pair        Strategy Direction     Price  Size_USD  Vol_20  Hurst
+10:49:09 | INFO |   stdout | 0  2026-03-17  USDHKD  Mean-Reversion     SHORT    7.8298      6969  0.0007   0.72
+10:49:09 | INFO |   stdout | 1  2026-03-17  USDMXN     Carry Trade     SHORT   17.6836      4850  0.0092   0.84
+10:49:09 | INFO |   stdout | 2  2026-03-17  USDPKR     Carry Trade     SHORT  279.0000      4850  0.0044   0.00
+10:49:09 | INFO |   stdout | 3  2026-03-17  USDZAR     Carry Trade     SHORT   16.6691      4850  0.0120   0.74
+10:49:09 | INFO | ============================================================
+10:49:09 | INFO | PIPELINE COMPLET en 1.27 min — 9/9 étapes OK
+10:49:09 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+10:49:09 | INFO | ============================================================
+11:00:38 | INFO | ============================================================
+11:00:38 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_110038)
+11:00:38 | INFO | ============================================================
+11:00:38 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+11:00:45 | INFO | SUCCESS   [data.py] terminé en 6.7s
+11:00:45 | INFO |   stdout | saved : USDPKR=X.csv
+11:00:45 | INFO |   stdout | Telechargement USDCZK=X ...
+11:00:45 | INFO |   stdout | saved : USDCZK=X.csv
+11:00:45 | INFO |   stdout | Telechargement USDHUF=X ...
+11:00:45 | INFO |   stdout | saved : USDHUF=X.csv
+11:00:45 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+11:01:11 | INFO | SUCCESS   [features.py] terminé en 25.6s
+11:01:11 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+11:01:26 | INFO | SUCCESS   [ic_audit.py] terminé en 15.3s
+11:01:26 | INFO |   stdout | Exportes :
+11:01:26 | INFO |   stdout |   ic_audit_pair_detail.csv
+11:01:26 | INFO |   stdout |   ic_audit_pair_scores.csv
+11:01:26 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+11:01:26 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+11:01:26 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+11:01:28 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.4s
+11:01:28 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+11:01:30 | INFO | SUCCESS   [backtest_strategies.py] terminé en 2.0s
+11:01:30 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+11:01:41 | INFO | SUCCESS   [strategy_ml.py] terminé en 10.5s
+11:01:41 | INFO |   stdout | USDZAR     0.409           0.295     0.056        0.241
+11:01:41 | INFO |   stdout | USDHKD     0.296           0.179     0.345        0.179
+11:01:41 | INFO |   stdout | GBPUSD     0.326           0.352     0.158        0.163
+11:01:41 | INFO |   stdout | USDTRY     0.419           0.000     0.059        0.522
+11:01:41 | INFO |   stdout | USDMXN     0.253           0.065     0.682        0.000
+11:01:41 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+11:01:43 | INFO | SUCCESS   [risk_manager.py] terminé en 2.4s
+11:01:43 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman → optimal_weights.csv (timeout=120s)
+11:01:44 | INFO | SUCCESS   [black_litterman.py] terminé en 0.7s
+11:01:44 | INFO |   stdout |   Momentum               5.6%  ##
+11:01:44 | INFO |   stdout |   Mean-Reversion        48.9%  ###################
+11:01:44 | INFO |   stdout |   Breakout              22.5%  ########
+11:01:44 | INFO |   stdout |   Carry Trade           23.0%  #########
+11:01:44 | INFO |   stdout | =============================================
+11:01:44 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+11:01:45 | INFO | SUCCESS   [main_trading.py] terminé en 1.3s
+11:01:45 | INFO |   stdout | Date    Pair     Strategy Direction     Price  Size_USD  Vol_20  Hurst
+11:01:45 | INFO |   stdout | 0  2026-03-17  USDMXN  Carry Trade     SHORT   17.6836      4600  0.0092   0.84
+11:01:45 | INFO |   stdout | 1  2026-03-17  USDPKR  Carry Trade     SHORT  279.0000      4600  0.0044   0.00
+11:01:45 | INFO |   stdout | 2  2026-03-17  USDZAR  Carry Trade     SHORT   16.6691      4600  0.0120   0.74
+11:01:45 | INFO | ============================================================
+11:01:45 | INFO | PIPELINE COMPLET en 1.11 min — 9/9 étapes OK
+11:01:45 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+11:01:45 | INFO | ============================================================
+11:19:18 | INFO | ============================================================
+11:19:18 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_111918)
+11:19:18 | INFO | ============================================================
+11:19:18 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+11:19:24 | INFO | SUCCESS   [data.py] terminé en 6.4s
+11:19:24 | INFO |   stdout | saved : USDPKR=X.csv
+11:19:24 | INFO |   stdout | Telechargement USDCZK=X ...
+11:19:24 | INFO |   stdout | saved : USDCZK=X.csv
+11:19:24 | INFO |   stdout | Telechargement USDHUF=X ...
+11:19:24 | INFO |   stdout | saved : USDHUF=X.csv
+11:19:24 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+11:19:49 | INFO | SUCCESS   [features.py] terminé en 24.4s
+11:19:49 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+11:20:02 | INFO | SUCCESS   [ic_audit.py] terminé en 13.5s
+11:20:02 | INFO |   stdout | Exportes :
+11:20:02 | INFO |   stdout |   ic_audit_pair_detail.csv
+11:20:02 | INFO |   stdout |   ic_audit_pair_scores.csv
+11:20:02 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+11:20:02 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+11:20:02 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+11:20:04 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.1s
+11:20:04 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+11:20:06 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.7s
+11:20:06 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+11:20:17 | INFO | SUCCESS   [strategy_ml.py] terminé en 10.8s
+11:20:17 | INFO |   stdout | USDZAR     0.609           0.233     0.009        0.150
+11:20:17 | INFO |   stdout | USDHKD     0.495           0.139     0.227        0.139
+11:20:17 | INFO |   stdout | GBPUSD     0.227           0.365     0.210        0.198
+11:20:17 | INFO |   stdout | USDTRY     0.483           0.000     0.046        0.471
+11:20:17 | INFO |   stdout | USDMXN     0.279           0.066     0.636        0.019
+11:20:17 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+11:20:19 | INFO | SUCCESS   [risk_manager.py] terminé en 2.4s
+11:20:19 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman → optimal_weights.csv (timeout=120s)
+11:20:20 | INFO | SUCCESS   [black_litterman.py] terminé en 0.7s
+11:20:20 | INFO |   stdout |   Momentum               5.6%  ##
+11:20:20 | INFO |   stdout |   Mean-Reversion        48.9%  ###################
+11:20:20 | INFO |   stdout |   Breakout              22.4%  ########
+11:20:20 | INFO |   stdout |   Carry Trade           23.1%  #########
+11:20:20 | INFO |   stdout | =============================================
+11:20:20 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+11:20:22 | INFO | SUCCESS   [main_trading.py] terminé en 1.6s
+11:20:22 | INFO |   stdout | 2  2026-03-17  USDZAR    Carry Trade     SHORT   16.6691      3238  0.0120   0.74
+11:20:22 | INFO |   stdout | 3  2026-03-17  AUDUSD  Long-Term G10      LONG    0.7068     15000  0.0074   0.84
+11:20:22 | INFO |   stdout | 4  2026-03-17  EURUSD  Long-Term G10     SHORT    1.1500     15000  0.0046   0.72
+11:20:22 | INFO |   stdout | 5  2026-03-17  NZDUSD  Long-Term G10     SHORT    0.5854     15000  0.0073   0.92
+11:20:22 | INFO |   stdout | 6  2026-03-17  USDJPY  Long-Term G10      LONG  159.1050     15000  0.0043   0.57
+11:20:22 | INFO | ============================================================
+11:20:22 | INFO | PIPELINE COMPLET en 1.06 min — 9/9 étapes OK
+11:20:22 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+11:20:22 | INFO | ============================================================
+11:26:33 | INFO | ============================================================
+11:26:33 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_112633)
+11:26:33 | INFO | ============================================================
+11:26:33 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+11:26:39 | INFO | SUCCESS   [data.py] terminé en 6.1s
+11:26:39 | INFO |   stdout | saved : USDPKR=X.csv
+11:26:39 | INFO |   stdout | Telechargement USDCZK=X ...
+11:26:39 | INFO |   stdout | saved : USDCZK=X.csv
+11:26:39 | INFO |   stdout | Telechargement USDHUF=X ...
+11:26:39 | INFO |   stdout | saved : USDHUF=X.csv
+11:26:39 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+11:27:15 | INFO | SUCCESS   [features.py] terminé en 36.8s
+11:27:15 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+11:27:33 | INFO | SUCCESS   [ic_audit.py] terminé en 17.1s
+11:27:33 | INFO |   stdout | Exportes :
+11:27:33 | INFO |   stdout |   ic_audit_pair_detail.csv
+11:27:33 | INFO |   stdout |   ic_audit_pair_scores.csv
+11:27:33 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+11:27:33 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+11:27:33 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+11:27:35 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.3s
+11:27:35 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+11:27:37 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.7s
+11:27:37 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+11:27:45 | INFO | SUCCESS   [strategy_ml.py] terminé en 8.9s
+11:27:45 | INFO |   stdout | USDZAR     0.609           0.233     0.009        0.150
+11:27:45 | INFO |   stdout | USDHKD     0.495           0.139     0.227        0.139
+11:27:45 | INFO |   stdout | GBPUSD     0.227           0.365     0.210        0.198
+11:27:45 | INFO |   stdout | USDTRY     0.483           0.000     0.046        0.471
+11:27:45 | INFO |   stdout | USDMXN     0.279           0.066     0.636        0.019
+11:27:45 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+11:27:48 | INFO | SUCCESS   [risk_manager.py] terminé en 2.2s
+11:27:48 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman → optimal_weights.csv (timeout=120s)
+11:27:48 | INFO | SUCCESS   [black_litterman.py] terminé en 0.7s
+11:27:48 | INFO |   stdout |   Momentum               5.6%  ##
+11:27:48 | INFO |   stdout |   Mean-Reversion        48.9%  ###################
+11:27:48 | INFO |   stdout |   Breakout              22.4%  ########
+11:27:48 | INFO |   stdout |   Carry Trade           23.1%  #########
+11:27:48 | INFO |   stdout | =============================================
+11:27:48 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+11:27:50 | INFO | SUCCESS   [main_trading.py] terminé en 1.5s
+11:27:50 | INFO |   stdout | 2  2026-03-17  USDZAR    Carry Trade     SHORT   16.6691      6476  0.0120   0.74
+11:27:50 | INFO |   stdout | 3  2026-03-17  AUDUSD  Long-Term G10      LONG    0.7068     15000  0.0074   0.84
+11:27:50 | INFO |   stdout | 4  2026-03-17  EURUSD  Long-Term G10     SHORT    1.1500     15000  0.0046   0.72
+11:27:50 | INFO |   stdout | 5  2026-03-17  NZDUSD  Long-Term G10     SHORT    0.5854     15000  0.0073   0.92
+11:27:50 | INFO |   stdout | 6  2026-03-17  USDJPY  Long-Term G10      LONG  159.1050     15000  0.0043   0.57
+11:27:50 | INFO | ============================================================
+11:27:50 | INFO | PIPELINE COMPLET en 1.29 min — 9/9 étapes OK
+11:27:50 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+11:27:50 | INFO | ============================================================
+11:29:49 | INFO | ============================================================
+11:29:49 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_112949)
+11:29:49 | INFO | ============================================================
+11:29:49 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+11:29:55 | INFO | SUCCESS   [data.py] terminé en 6.3s
+11:29:55 | INFO |   stdout | saved : USDPKR=X.csv
+11:29:55 | INFO |   stdout | Telechargement USDCZK=X ...
+11:29:55 | INFO |   stdout | saved : USDCZK=X.csv
+11:29:55 | INFO |   stdout | Telechargement USDHUF=X ...
+11:29:55 | INFO |   stdout | saved : USDHUF=X.csv
+11:29:55 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+11:30:35 | INFO | SUCCESS   [features.py] terminé en 40.0s
+11:30:35 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+11:30:56 | INFO | SUCCESS   [ic_audit.py] terminé en 20.9s
+11:30:56 | INFO |   stdout | Exportes :
+11:30:56 | INFO |   stdout |   ic_audit_pair_detail.csv
+11:30:56 | INFO |   stdout |   ic_audit_pair_scores.csv
+11:30:56 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+11:30:56 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+11:30:56 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+11:30:59 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.7s
+11:30:59 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+11:31:00 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.6s
+11:31:00 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+11:31:09 | INFO | SUCCESS   [strategy_ml.py] terminé en 8.6s
+11:31:09 | INFO |   stdout | USDZAR     0.609           0.233     0.009        0.150
+11:31:09 | INFO |   stdout | USDHKD     0.495           0.139     0.227        0.139
+11:31:09 | INFO |   stdout | GBPUSD     0.227           0.365     0.210        0.198
+11:31:09 | INFO |   stdout | USDTRY     0.483           0.000     0.046        0.471
+11:31:09 | INFO |   stdout | USDMXN     0.279           0.066     0.636        0.019
+11:31:09 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+11:31:11 | INFO | SUCCESS   [risk_manager.py] terminé en 2.1s
+11:31:11 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman → optimal_weights.csv (timeout=120s)
+11:31:12 | INFO | SUCCESS   [black_litterman.py] terminé en 0.6s
+11:31:12 | INFO |   stdout |   Momentum               5.6%  ##
+11:31:12 | INFO |   stdout |   Mean-Reversion        48.9%  ###################
+11:31:12 | INFO |   stdout |   Breakout              22.4%  ########
+11:31:12 | INFO |   stdout |   Carry Trade           23.1%  #########
+11:31:12 | INFO |   stdout | =============================================
+11:31:12 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+11:31:13 | INFO | SUCCESS   [main_trading.py] terminé en 1.4s
+11:31:13 | INFO |   stdout | 2  2026-03-17  USDZAR    Carry Trade     SHORT   16.6691      6476  0.0120   0.74
+11:31:13 | INFO |   stdout | 3  2026-03-17  AUDUSD  Long-Term G10      LONG    0.7068     15000  0.0074   0.84
+11:31:13 | INFO |   stdout | 4  2026-03-17  EURUSD  Long-Term G10     SHORT    1.1500     15000  0.0046   0.72
+11:31:13 | INFO |   stdout | 5  2026-03-17  NZDUSD  Long-Term G10     SHORT    0.5854     15000  0.0073   0.92
+11:31:13 | INFO |   stdout | 6  2026-03-17  USDJPY  Long-Term G10      LONG  159.1050     15000  0.0043   0.57
+11:31:13 | INFO | ============================================================
+11:31:13 | INFO | PIPELINE COMPLET en 1.40 min — 9/9 étapes OK
+11:31:13 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+11:31:13 | INFO | ============================================================
+11:51:19 | INFO | ============================================================
+11:51:19 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_115119)
+11:51:19 | INFO | ============================================================
+11:51:19 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+11:51:25 | INFO | SUCCESS   [data.py] terminé en 6.0s
+11:51:25 | INFO |   stdout | saved : USDPKR=X.csv
+11:51:25 | INFO |   stdout | Telechargement USDCZK=X ...
+11:51:25 | INFO |   stdout | saved : USDCZK=X.csv
+11:51:25 | INFO |   stdout | Telechargement USDHUF=X ...
+11:51:25 | INFO |   stdout | saved : USDHUF=X.csv
+11:51:25 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+11:51:49 | INFO | SUCCESS   [features.py] terminé en 24.2s
+11:51:49 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+11:52:03 | INFO | SUCCESS   [ic_audit.py] terminé en 14.0s
+11:52:03 | INFO |   stdout | Exportes :
+11:52:03 | INFO |   stdout |   ic_audit_pair_detail.csv
+11:52:03 | INFO |   stdout |   ic_audit_pair_scores.csv
+11:52:03 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+11:52:03 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+11:52:03 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+11:52:06 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.5s
+11:52:06 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+11:52:08 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.6s
+11:52:08 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+11:52:18 | INFO | SUCCESS   [strategy_ml.py] terminé en 10.3s
+11:52:18 | INFO |   stdout | USDZAR     0.536           0.260     0.044        0.159
+11:52:18 | INFO |   stdout | USDHKD     0.495           0.139     0.227        0.139
+11:52:18 | INFO |   stdout | GBPUSD     0.227           0.365     0.210        0.198
+11:52:18 | INFO |   stdout | USDTRY     0.477           0.000     0.046        0.476
+11:52:18 | INFO |   stdout | USDMXN     0.279           0.066     0.636        0.019
+11:52:18 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+11:52:20 | INFO | SUCCESS   [risk_manager.py] terminé en 2.3s
+11:52:20 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman → optimal_weights.csv (timeout=120s)
+11:52:21 | INFO | SUCCESS   [black_litterman.py] terminé en 0.7s
+11:52:21 | INFO |   stdout |   Momentum               6.8%  ##
+11:52:21 | INFO |   stdout |   Mean-Reversion        40.8%  ################
+11:52:21 | INFO |   stdout |   Breakout              27.2%  ##########
+11:52:21 | INFO |   stdout |   Carry Trade           25.3%  ##########
+11:52:21 | INFO |   stdout | =============================================
+11:52:21 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+11:52:22 | INFO | SUCCESS   [main_trading.py] terminé en 1.6s
+11:52:22 | INFO |   stdout | 2  2026-03-17  USDZAR    Carry Trade     SHORT   16.6691      7079  0.0120   0.74
+11:52:22 | INFO |   stdout | 3  2026-03-17  AUDUSD  Long-Term G10      LONG    0.7068     15000  0.0074   0.84
+11:52:22 | INFO |   stdout | 4  2026-03-17  EURUSD  Long-Term G10     SHORT    1.1500     15000  0.0046   0.72
+11:52:22 | INFO |   stdout | 5  2026-03-17  NZDUSD  Long-Term G10     SHORT    0.5854     15000  0.0073   0.92
+11:52:22 | INFO |   stdout | 6  2026-03-17  USDJPY  Long-Term G10      LONG  159.1050     15000  0.0043   0.57
+11:52:22 | INFO | ============================================================
+11:52:22 | INFO | PIPELINE COMPLET en 1.05 min — 9/9 étapes OK
+11:52:22 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+11:52:22 | INFO | ============================================================
+11:55:45 | INFO | ============================================================
+11:55:45 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_115545)
+11:55:45 | INFO | ============================================================
+11:55:45 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+11:55:52 | INFO | SUCCESS   [data.py] terminé en 6.1s
+11:55:52 | INFO |   stdout | saved : USDPKR=X.csv
+11:55:52 | INFO |   stdout | Telechargement USDCZK=X ...
+11:55:52 | INFO |   stdout | saved : USDCZK=X.csv
+11:55:52 | INFO |   stdout | Telechargement USDHUF=X ...
+11:55:52 | INFO |   stdout | saved : USDHUF=X.csv
+11:55:52 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+11:56:22 | INFO | SUCCESS   [features.py] terminé en 30.5s
+11:56:22 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+11:56:51 | INFO | SUCCESS   [ic_audit.py] terminé en 28.8s
+11:56:51 | INFO |   stdout | Exportes :
+11:56:51 | INFO |   stdout |   ic_audit_pair_detail.csv
+11:56:51 | INFO |   stdout |   ic_audit_pair_scores.csv
+11:56:51 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+11:56:51 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+11:56:51 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+11:56:53 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.2s
+11:56:53 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+11:56:55 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.7s
+11:56:55 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+11:57:08 | INFO | SUCCESS   [strategy_ml.py] terminé en 13.1s
+11:57:08 | INFO |   stdout | USDZAR     0.536           0.260     0.044        0.159
+11:57:08 | INFO |   stdout | USDHKD     0.495           0.139     0.227        0.139
+11:57:08 | INFO |   stdout | GBPUSD     0.227           0.365     0.210        0.198
+11:57:08 | INFO |   stdout | USDTRY     0.477           0.000     0.046        0.476
+11:57:08 | INFO |   stdout | USDMXN     0.279           0.066     0.636        0.019
+11:57:08 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+11:57:10 | INFO | SUCCESS   [risk_manager.py] terminé en 2.3s
+11:57:10 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman -> optimal_weights.csv (timeout=120s)
+11:57:11 | INFO | SUCCESS   [black_litterman.py] terminé en 0.7s
+11:57:11 | INFO |   stdout |   Momentum               6.8%  ##
+11:57:11 | INFO |   stdout |   Mean-Reversion        40.8%  ################
+11:57:11 | INFO |   stdout |   Breakout              27.2%  ##########
+11:57:11 | INFO |   stdout |   Carry Trade           25.3%  ##########
+11:57:11 | INFO |   stdout | =============================================
+11:57:11 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+11:57:12 | INFO | SUCCESS   [main_trading.py] terminé en 1.7s
+11:57:12 | INFO |   stdout | 2  2026-03-17  USDZAR    Carry Trade     SHORT   16.6691      7079  0.0120   0.74
+11:57:12 | INFO |   stdout | 3  2026-03-17  AUDUSD  Long-Term G10      LONG    0.7068     15000  0.0074   0.84
+11:57:12 | INFO |   stdout | 4  2026-03-17  EURUSD  Long-Term G10     SHORT    1.1500     15000  0.0046   0.72
+11:57:12 | INFO |   stdout | 5  2026-03-17  NZDUSD  Long-Term G10     SHORT    0.5854     15000  0.0073   0.92
+11:57:12 | INFO |   stdout | 6  2026-03-17  USDJPY  Long-Term G10      LONG  159.1050     15000  0.0043   0.57
+11:57:12 | INFO | ============================================================
+11:57:12 | INFO | PIPELINE COMPLET en 1.45 min — 9/9 étapes OK
+11:57:12 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+11:57:12 | INFO | ============================================================
+12:06:18 | INFO | ============================================================
+12:06:18 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_120618)
+12:06:18 | INFO | ============================================================
+12:06:18 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+12:06:25 | INFO | SUCCESS   [data.py] terminé en 6.2s
+12:06:25 | INFO |   stdout | saved : USDPKR=X.csv
+12:06:25 | INFO |   stdout | Telechargement USDCZK=X ...
+12:06:25 | INFO |   stdout | saved : USDCZK=X.csv
+12:06:25 | INFO |   stdout | Telechargement USDHUF=X ...
+12:06:25 | INFO |   stdout | saved : USDHUF=X.csv
+12:06:25 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+12:06:46 | INFO | SUCCESS   [features.py] terminé en 21.6s
+12:06:46 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+12:07:00 | INFO | SUCCESS   [ic_audit.py] terminé en 13.7s
+12:07:00 | INFO |   stdout | Exportes :
+12:07:00 | INFO |   stdout |   ic_audit_pair_detail.csv
+12:07:00 | INFO |   stdout |   ic_audit_pair_scores.csv
+12:07:00 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+12:07:00 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+12:07:00 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+12:07:02 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.1s
+12:07:02 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+12:07:04 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.6s
+12:07:04 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+12:07:11 | INFO | SUCCESS   [strategy_ml.py] terminé en 7.1s
+12:07:11 | INFO |   stdout | USDZAR     0.477           0.246     0.033        0.244
+12:07:11 | INFO |   stdout | USDHKD     0.606           0.131     0.131        0.131
+12:07:11 | INFO |   stdout | GBPUSD     0.246           0.377     0.188        0.188
+12:07:11 | INFO |   stdout | USDTRY     0.499           0.000     0.002        0.499
+12:07:11 | INFO |   stdout | USDMXN     0.369           0.625     0.002        0.003
+12:07:11 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+12:07:13 | INFO | SUCCESS   [risk_manager.py] terminé en 2.2s
+12:07:13 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman -> optimal_weights.csv (timeout=120s)
+12:07:14 | INFO | SUCCESS   [black_litterman.py] terminé en 0.7s
+12:07:14 | INFO |   stdout |   Momentum               4.6%  #
+12:07:14 | INFO |   stdout |   Mean-Reversion        46.2%  ##################
+12:07:14 | INFO |   stdout |   TSMOM                  4.6%  #
+12:07:14 | INFO |   stdout |   Carry Trade           44.5%  #################
+12:07:14 | INFO |   stdout | =============================================
+12:07:14 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+12:07:15 | INFO | SUCCESS   [main_trading.py] terminé en 1.6s
+12:07:15 | INFO |   stdout | 7   2026-03-17  USDZAR    Carry Trade     SHORT   16.6691     10500  0.0120   0.74
+12:07:15 | INFO |   stdout | 8   2026-03-17  AUDUSD  Long-Term G10      LONG    0.7068     15000  0.0074   0.84
+12:07:15 | INFO |   stdout | 9   2026-03-17  EURUSD  Long-Term G10     SHORT    1.1500     15000  0.0046   0.72
+12:07:15 | INFO |   stdout | 10  2026-03-17  NZDUSD  Long-Term G10     SHORT    0.5854     15000  0.0073   0.92
+12:07:15 | INFO |   stdout | 11  2026-03-17  USDJPY  Long-Term G10      LONG  159.1050     15000  0.0043   0.57
+12:07:15 | INFO | ============================================================
+12:07:15 | INFO | PIPELINE COMPLET en 0.94 min — 9/9 étapes OK
+12:07:15 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+12:07:15 | INFO | ============================================================
+12:08:02 | INFO | ============================================================
+12:08:02 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_120802)
+12:08:02 | INFO | ============================================================
+12:08:02 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+12:08:09 | INFO | SUCCESS   [data.py] terminé en 6.3s
+12:08:09 | INFO |   stdout | saved : USDPKR=X.csv
+12:08:09 | INFO |   stdout | Telechargement USDCZK=X ...
+12:08:09 | INFO |   stdout | saved : USDCZK=X.csv
+12:08:09 | INFO |   stdout | Telechargement USDHUF=X ...
+12:08:09 | INFO |   stdout | saved : USDHUF=X.csv
+12:08:09 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+12:08:45 | INFO | SUCCESS   [features.py] terminé en 36.7s
+12:08:45 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+12:09:09 | INFO | SUCCESS   [ic_audit.py] terminé en 23.7s
+12:09:09 | INFO |   stdout | Exportes :
+12:09:09 | INFO |   stdout |   ic_audit_pair_detail.csv
+12:09:09 | INFO |   stdout |   ic_audit_pair_scores.csv
+12:09:09 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+12:09:09 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+12:09:09 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+12:09:12 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.6s
+12:09:12 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+12:09:13 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.6s
+12:09:13 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+12:09:23 | INFO | SUCCESS   [strategy_ml.py] terminé en 9.7s
+12:09:23 | INFO |   stdout | USDZAR     0.477           0.246     0.033        0.244
+12:09:23 | INFO |   stdout | USDHKD     0.606           0.131     0.131        0.131
+12:09:23 | INFO |   stdout | GBPUSD     0.246           0.377     0.188        0.188
+12:09:23 | INFO |   stdout | USDTRY     0.499           0.000     0.002        0.499
+12:09:23 | INFO |   stdout | USDMXN     0.369           0.625     0.002        0.003
+12:09:23 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+12:09:26 | INFO | SUCCESS   [risk_manager.py] terminé en 2.7s
+12:09:26 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman -> optimal_weights.csv (timeout=120s)
+12:09:27 | INFO | SUCCESS   [black_litterman.py] terminé en 0.8s
+12:09:27 | INFO |   stdout |   Momentum               4.6%  #
+12:09:27 | INFO |   stdout |   Mean-Reversion        46.2%  ##################
+12:09:27 | INFO |   stdout |   TSMOM                  4.6%  #
+12:09:27 | INFO |   stdout |   Carry Trade           44.5%  #################
+12:09:27 | INFO |   stdout | =============================================
+12:09:27 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+12:09:28 | INFO | SUCCESS   [main_trading.py] terminé en 1.7s
+12:09:28 | INFO |   stdout | 7   2026-03-17  USDZAR    Carry Trade     SHORT   16.6691     10500  0.0120   0.74
+12:09:28 | INFO |   stdout | 8   2026-03-17  AUDUSD  Long-Term G10      LONG    0.7068     15000  0.0074   0.84
+12:09:28 | INFO |   stdout | 9   2026-03-17  EURUSD  Long-Term G10     SHORT    1.1500     15000  0.0046   0.72
+12:09:28 | INFO |   stdout | 10  2026-03-17  NZDUSD  Long-Term G10     SHORT    0.5854     15000  0.0073   0.92
+12:09:28 | INFO |   stdout | 11  2026-03-17  USDJPY  Long-Term G10      LONG  159.1050     15000  0.0043   0.57
+12:09:28 | INFO | ============================================================
+12:09:28 | INFO | PIPELINE COMPLET en 1.43 min — 9/9 étapes OK
+12:09:28 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+12:09:28 | INFO | ============================================================
+12:21:16 | INFO | ============================================================
+12:21:16 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_122116)
+12:21:16 | INFO | ============================================================
+12:21:16 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+12:21:22 | INFO | SUCCESS   [data.py] terminé en 6.4s
+12:21:22 | INFO |   stdout | saved : USDPKR=X.csv
+12:21:22 | INFO |   stdout | Telechargement USDCZK=X ...
+12:21:22 | INFO |   stdout | saved : USDCZK=X.csv
+12:21:22 | INFO |   stdout | Telechargement USDHUF=X ...
+12:21:22 | INFO |   stdout | saved : USDHUF=X.csv
+12:21:22 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+12:22:01 | INFO | SUCCESS   [features.py] terminé en 38.6s
+12:22:01 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+12:22:23 | INFO | SUCCESS   [ic_audit.py] terminé en 21.8s
+12:22:23 | INFO |   stdout | Exportes :
+12:22:23 | INFO |   stdout |   ic_audit_pair_detail.csv
+12:22:23 | INFO |   stdout |   ic_audit_pair_scores.csv
+12:22:23 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+12:22:23 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+12:22:23 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+12:22:25 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.1s
+12:22:25 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+12:22:26 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.6s
+12:22:26 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+12:22:35 | INFO | SUCCESS   [strategy_ml.py] terminé en 9.1s
+12:22:35 | INFO |   stdout | USDZAR     0.477           0.246     0.033        0.244
+12:22:35 | INFO |   stdout | USDHKD     0.606           0.131     0.131        0.131
+12:22:35 | INFO |   stdout | GBPUSD     0.246           0.377     0.188        0.188
+12:22:35 | INFO |   stdout | USDTRY     0.499           0.000     0.002        0.499
+12:22:35 | INFO |   stdout | USDMXN     0.369           0.625     0.002        0.003
+12:22:35 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+12:22:38 | INFO | SUCCESS   [risk_manager.py] terminé en 2.4s
+12:22:38 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman -> optimal_weights.csv (timeout=120s)
+12:22:39 | INFO | SUCCESS   [black_litterman.py] terminé en 0.7s
+12:22:39 | INFO |   stdout |   Momentum               4.6%  #
+12:22:39 | INFO |   stdout |   Mean-Reversion        46.2%  ##################
+12:22:39 | INFO |   stdout |   TSMOM                  4.6%  #
+12:22:39 | INFO |   stdout |   Carry Trade           44.5%  #################
+12:22:39 | INFO |   stdout | =============================================
+12:22:39 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+12:22:40 | INFO | SUCCESS   [main_trading.py] terminé en 1.6s
+12:22:40 | INFO |   stdout | 7   2026-03-17  USDZAR    Carry Trade     SHORT   16.6691     10500  0.0120   0.74
+12:22:40 | INFO |   stdout | 8   2026-03-17  AUDUSD  Long-Term G10      LONG    0.7068     15000  0.0074   0.84
+12:22:40 | INFO |   stdout | 9   2026-03-17  EURUSD  Long-Term G10     SHORT    1.1500     15000  0.0046   0.72
+12:22:40 | INFO |   stdout | 10  2026-03-17  NZDUSD  Long-Term G10     SHORT    0.5854     15000  0.0073   0.92
+12:22:40 | INFO |   stdout | 11  2026-03-17  USDJPY  Long-Term G10      LONG  159.1050     15000  0.0043   0.57
+12:22:40 | INFO | ============================================================
+12:22:40 | INFO | PIPELINE COMPLET en 1.40 min — 9/9 étapes OK
+12:22:40 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+12:22:40 | INFO | ============================================================
+12:24:09 | INFO | ============================================================
+12:24:09 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_122409)
+12:24:09 | INFO | ============================================================
+12:24:09 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+12:24:15 | INFO | SUCCESS   [data.py] terminé en 6.0s
+12:24:15 | INFO |   stdout | saved : USDPKR=X.csv
+12:24:15 | INFO |   stdout | Telechargement USDCZK=X ...
+12:24:15 | INFO |   stdout | saved : USDCZK=X.csv
+12:24:15 | INFO |   stdout | Telechargement USDHUF=X ...
+12:24:15 | INFO |   stdout | saved : USDHUF=X.csv
+12:24:15 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+12:24:38 | INFO | SUCCESS   [features.py] terminé en 23.5s
+12:24:38 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+12:24:53 | INFO | SUCCESS   [ic_audit.py] terminé en 14.7s
+12:24:53 | INFO |   stdout | Exportes :
+12:24:53 | INFO |   stdout |   ic_audit_pair_detail.csv
+12:24:53 | INFO |   stdout |   ic_audit_pair_scores.csv
+12:24:53 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+12:24:53 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+12:24:53 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+12:24:55 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.1s
+12:24:55 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+12:24:57 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.5s
+12:24:57 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+12:25:04 | INFO | SUCCESS   [strategy_ml.py] terminé en 7.7s
+12:25:04 | INFO |   stdout | USDZAR     0.477           0.246     0.033        0.244
+12:25:04 | INFO |   stdout | USDHKD     0.606           0.131     0.131        0.131
+12:25:04 | INFO |   stdout | GBPUSD     0.246           0.377     0.188        0.188
+12:25:04 | INFO |   stdout | USDTRY     0.499           0.000     0.002        0.499
+12:25:04 | INFO |   stdout | USDMXN     0.369           0.625     0.002        0.003
+12:25:04 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+12:25:07 | INFO | SUCCESS   [risk_manager.py] terminé en 2.4s
+12:25:07 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman -> optimal_weights.csv (timeout=120s)
+12:25:07 | INFO | SUCCESS   [black_litterman.py] terminé en 0.7s
+12:25:07 | INFO |   stdout |   Momentum               4.6%  #
+12:25:07 | INFO |   stdout |   Mean-Reversion        46.2%  ##################
+12:25:07 | INFO |   stdout |   TSMOM                  4.6%  #
+12:25:07 | INFO |   stdout |   Carry Trade           44.5%  #################
+12:25:07 | INFO |   stdout | =============================================
+12:25:07 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+12:25:09 | INFO | SUCCESS   [main_trading.py] terminé en 1.8s
+12:25:09 | INFO |   stdout | 7   2026-03-17  USDZAR    Carry Trade     SHORT   16.6691     10500  0.0120   0.74
+12:25:09 | INFO |   stdout | 8   2026-03-17  AUDUSD  Long-Term G10      LONG    0.7068     15000  0.0074   0.84
+12:25:09 | INFO |   stdout | 9   2026-03-17  EURUSD  Long-Term G10     SHORT    1.1500     15000  0.0046   0.72
+12:25:09 | INFO |   stdout | 10  2026-03-17  NZDUSD  Long-Term G10     SHORT    0.5854     15000  0.0073   0.92
+12:25:09 | INFO |   stdout | 11  2026-03-17  USDJPY  Long-Term G10      LONG  159.1050     15000  0.0043   0.57
+12:25:09 | INFO | ============================================================
+12:25:09 | INFO | PIPELINE COMPLET en 1.01 min — 9/9 étapes OK
+12:25:09 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+12:25:09 | INFO | ============================================================
+12:45:56 | INFO | ============================================================
+12:45:56 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_124556)
+12:45:56 | INFO | ============================================================
+12:45:56 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+12:46:02 | INFO | SUCCESS   [data.py] terminé en 6.1s
+12:46:02 | INFO |   stdout | saved : USDPKR=X.csv
+12:46:02 | INFO |   stdout | Telechargement USDCZK=X ...
+12:46:02 | INFO |   stdout | saved : USDCZK=X.csv
+12:46:02 | INFO |   stdout | Telechargement USDHUF=X ...
+12:46:02 | INFO |   stdout | saved : USDHUF=X.csv
+12:46:02 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+12:46:44 | INFO | SUCCESS   [features.py] terminé en 41.5s
+12:46:44 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+12:47:08 | INFO | SUCCESS   [ic_audit.py] terminé en 24.1s
+12:47:08 | INFO |   stdout | Exportes :
+12:47:08 | INFO |   stdout |   ic_audit_pair_detail.csv
+12:47:08 | INFO |   stdout |   ic_audit_pair_scores.csv
+12:47:08 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+12:47:08 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+12:47:08 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+12:47:10 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.0s
+12:47:10 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+12:47:11 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.5s
+12:47:11 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+12:47:19 | INFO | SUCCESS   [strategy_ml.py] terminé en 7.7s
+12:47:19 | INFO |   stdout | USDZAR     0.479           0.186  0.104        0.231
+12:47:19 | INFO |   stdout | USDHKD     0.606           0.131  0.131        0.131
+12:47:19 | INFO |   stdout | GBPUSD     0.246           0.377  0.188        0.188
+12:47:19 | INFO |   stdout | USDTRY     0.334           0.000  0.331        0.334
+12:47:19 | INFO |   stdout | USDMXN     0.334           0.653  0.000        0.013
+12:47:19 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+12:47:21 | INFO | SUCCESS   [risk_manager.py] terminé en 1.6s
+12:47:21 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman -> optimal_weights.csv (timeout=120s)
+12:47:21 | INFO | SUCCESS   [black_litterman.py] terminé en 0.8s
+12:47:21 | INFO |   stdout |   Momentum               4.6%  #
+12:47:21 | INFO |   stdout |   Mean-Reversion        46.2%  ##################
+12:47:21 | INFO |   stdout |   TSMOM                  4.6%  #
+12:47:21 | INFO |   stdout |   Carry Trade           44.5%  #################
+12:47:21 | INFO |   stdout | =============================================
+12:47:21 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+12:47:23 | INFO | SUCCESS   [main_trading.py] terminé en 1.8s
+12:47:23 | INFO |   stdout | 7   2026-03-17  USDZAR    Carry Trade     SHORT   16.6691     10500  0.0120   0.74
+12:47:23 | INFO |   stdout | 8   2026-03-17  AUDUSD  Long-Term G10      LONG    0.7068     15000  0.0074   0.84
+12:47:23 | INFO |   stdout | 9   2026-03-17  EURUSD  Long-Term G10     SHORT    1.1500     15000  0.0046   0.72
+12:47:23 | INFO |   stdout | 10  2026-03-17  NZDUSD  Long-Term G10     SHORT    0.5854     15000  0.0073   0.92
+12:47:23 | INFO |   stdout | 11  2026-03-17  USDJPY  Long-Term G10      LONG  159.1050     15000  0.0043   0.57
+12:47:23 | INFO | ============================================================
+12:47:23 | INFO | PIPELINE COMPLET en 1.45 min — 9/9 étapes OK
+12:47:23 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+12:47:23 | INFO | ============================================================
+14:24:08 | INFO | ============================================================
+14:24:08 | INFO | FX TRADING SYSTEM — PIPELINE v2.1  (run_id=20260324_142408)
+14:24:08 | INFO | ============================================================
+14:24:08 | INFO | STARTING  [data.py] Ingestion des données (Yahoo Finance) (timeout=300s)
+14:24:15 | INFO | SUCCESS   [data.py] terminé en 6.3s
+14:24:15 | INFO |   stdout | saved : USDPKR=X.csv
+14:24:15 | INFO |   stdout | Telechargement USDCZK=X ...
+14:24:15 | INFO |   stdout | saved : USDCZK=X.csv
+14:24:15 | INFO |   stdout | Telechargement USDHUF=X ...
+14:24:15 | INFO |   stdout | saved : USDHUF=X.csv
+14:24:15 | INFO | STARTING  [features.py] Engineering des indicateurs + nouvelles features (timeout=180s)
+14:24:54 | INFO | SUCCESS   [features.py] terminé en 39.8s
+14:24:54 | INFO | STARTING  [ic_audit.py] Audit IC/ICIR bilatéral — sélection univers + directions (timeout=120s)
+14:25:21 | INFO | SUCCESS   [ic_audit.py] terminé en 26.5s
+14:25:21 | INFO |   stdout | Exportes :
+14:25:21 | INFO |   stdout |   ic_audit_pair_detail.csv
+14:25:21 | INFO |   stdout |   ic_audit_pair_scores.csv
+14:25:21 | INFO |   stdout |   ic_signal_directions.csv  <-- signe IC par (paire, feature) pour ML
+14:25:21 | INFO |   stdout |   ic_selected_pairs.csv     <-- 8 paires retenues
+14:25:21 | INFO | STARTING  [ml_pair_selection.py] ML couche 1 : sélection et scoring des paires actives (timeout=300s)
+14:25:23 | INFO | SUCCESS   [ml_pair_selection.py] terminé en 2.5s
+14:25:23 | INFO | STARTING  [backtest_strategies.py] Simulation historique (PnL net + coûts + export par paire) (timeout=240s)
+14:25:25 | INFO | SUCCESS   [backtest_strategies.py] terminé en 1.7s
+14:25:25 | INFO | STARTING  [strategy_ml.py] ML couche 2 : poids optimal par (paire × stratégie) (timeout=300s)
+14:25:35 | INFO | SUCCESS   [strategy_ml.py] terminé en 10.4s
+14:25:35 | INFO |   stdout | USDZAR     0.479           0.186  0.104        0.231
+14:25:35 | INFO |   stdout | USDHKD     0.606           0.131  0.131        0.131
+14:25:35 | INFO |   stdout | GBPUSD     0.246           0.377  0.188        0.188
+14:25:35 | INFO |   stdout | USDTRY     0.334           0.000  0.331        0.334
+14:25:35 | INFO |   stdout | USDMXN     0.334           0.653  0.000        0.013
+14:25:35 | INFO | STARTING  [risk_manager.py] Risque : VaR, drawdown, stress tests (timeout=240s)
+14:25:37 | INFO | SUCCESS   [risk_manager.py] terminé en 1.5s
+14:25:37 | INFO | STARTING  [black_litterman.py] Allocation globale Black-Litterman -> optimal_weights.csv (timeout=120s)
+14:25:38 | INFO | SUCCESS   [black_litterman.py] terminé en 0.7s
+14:25:38 | INFO |   stdout |   Momentum               4.6%  #
+14:25:38 | INFO |   stdout |   Mean-Reversion        46.2%  ##################
+14:25:38 | INFO |   stdout |   TSMOM                  4.6%  #
+14:25:38 | INFO |   stdout |   Carry Trade           44.5%  #################
+14:25:38 | INFO |   stdout | =============================================
+14:25:38 | INFO | STARTING  [portfolio_utils.py] Optimisation Markowitz Max Sharpe / Min Variance (timeout=120s)
+14:25:39 | INFO | SUCCESS   [portfolio_utils.py] terminé en 0.8s
+14:25:39 | INFO |   stdout | USDTRY      0.3500        0.0094        0.2819
+14:25:39 | INFO |   stdout | USDZAR      0.0000        0.0169        0.0034
+14:25:39 | INFO |   stdout | Blend 60/40 — Return: 6.85% | Vol: 3.75% | Sharpe: 1.291
+14:25:39 | INFO |   stdout | ============================================================
+14:25:39 | INFO | STARTING  [main_trading.py] Génération du ticket d'ordres final (timeout=60s)
+14:25:40 | INFO | SUCCESS   [main_trading.py] terminé en 1.6s
+14:25:40 | INFO |   stdout | 9   2026-03-17  USDTRY          TSMOM      LONG   44.1835      6538  0.0009   0.36
+14:25:40 | INFO |   stdout | 10  2026-03-17  AUDUSD  Long-Term G10      LONG    0.7068     15000  0.0074   0.84
+14:25:40 | INFO |   stdout | 11  2026-03-17  EURUSD  Long-Term G10     SHORT    1.1500     15000  0.0046   0.72
+14:25:40 | INFO |   stdout | 12  2026-03-17  NZDUSD  Long-Term G10     SHORT    0.5854     15000  0.0073   0.92
+14:25:40 | INFO |   stdout | 13  2026-03-17  USDJPY  Long-Term G10      LONG  159.1050     15000  0.0043   0.57
+14:25:40 | INFO | ============================================================
+14:25:40 | INFO | PIPELINE COMPLET en 1.53 min — 10/10 étapes OK
+14:25:40 | INFO | Outputs : FINAL_ORDERS.csv | backtest_metrics.csv | risk_outputs/*.csv
+14:25:40 | INFO | ============================================================

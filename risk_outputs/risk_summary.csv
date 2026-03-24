@@ -1,0 +1,12 @@
+;value
+max_drawdown;-0,028060054752934604
+corr_abs_mean_avg;0,24287286930122065
+corr_stress_days;453,0
+exposure_avg;1,0
+stop_trading_days;0,0
+cost_total;0,0
+turnover_avg;0,0
+VaR_backtest_n_obs;2395,0
+VaR_backtest_n_breaches;119,0
+VaR_backtest_breach_rate;0,049686847599164925
+VaR_backtest_expected_rate;0,050000000000000044

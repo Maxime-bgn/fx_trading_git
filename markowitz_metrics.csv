@@ -1,0 +1,4 @@
+Ann. Return (%),Ann. Volatility (%),Sharpe Ratio,Sortino Ratio,Max Drawdown (%),Calmar Ratio,VaR 95% (%),CVaR 95% (%),Portfolio
+8.83,4.63,1.477,2.083,-6.34,1.393,-0.2602,-0.5364,Max_Sharpe
+-0.04,0.88,-2.323,-3.177,-2.54,-0.015,-0.0795,-0.1304,Min_Variance
+7.01,3.75,1.335,1.896,-5.14,1.366,-0.217,-0.4383,Blend_60_40

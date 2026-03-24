@@ -1,218 +1,228 @@
 """
-Module 2 — Market Analysis
-Uses utilities from portfolio_utils.py
+modules/market_analysis.py
+---------------------------
+Onglet "Stress Test & Marche" — branche sur risk_outputs/*.csv.
 """
-
-import streamlit as st
-import pandas as pd
+import os, logging
+from datetime import datetime
 import numpy as np
+import pandas as pd
 import plotly.graph_objects as go
-import sys
-from pathlib import Path
+import plotly.express as px
+import streamlit as st
 
-# Add parent directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-# Import from utility module
-from portfolio_utils import (
-    load_fx_prices,
-    load_fx_returns,
-    compute_markowitz_optimization,
-    port_return,
-    port_vol
-)
+logger = logging.getLogger(__name__)
+RISK_DIR   = "risk_outputs"
+DAILY_CSV  = os.path.join(RISK_DIR, "risk_report_daily.csv")
+SUMM_CSV   = os.path.join(RISK_DIR, "risk_summary.csv")
+STRESS_CSV = os.path.join(RISK_DIR, "risk_stress_tests.csv")
 
 
-PAIRS_RAPPORT = ["EUR/USD","GBP/USD","USD/JPY","USD/CHF",
-                 "AUD/USD","AUD/CAD","AUD/JPY","NZD/JPY",
-                 "EUR/NOK","USD/INR","USD/CNH"]
+def _clean_layout(fig, height=280, **kwargs):
+    defaults = dict(
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        height=height, margin=dict(t=10, b=10, l=0, r=0),
+        xaxis=dict(color="#495057", gridcolor="#e9ecef"),
+        yaxis=dict(color="#495057", gridcolor="#e9ecef"),
+    )
+    defaults.update(kwargs)
+    fig.update_layout(**defaults)
 
-SCORES_DATA = {
-    "Pair":        PAIRS_RAPPORT,
-    "Total Score": [0.92,0.87,0.90,0.85,0.83,0.76,0.79,0.73,0.62,0.71,0.78],
-    "Liquidity":   [0.98,0.92,0.97,0.85,0.82,0.65,0.72,0.60,0.42,0.55,0.72],
-    "Volatility":  [0.88,0.82,0.85,0.90,0.80,0.78,0.75,0.70,0.72,0.78,0.82],
-    "Correlation": [0.90,0.85,0.88,0.82,0.85,0.92,0.88,0.85,0.95,0.97,0.88],
-    "Spread":      [0.95,0.88,0.95,0.82,0.80,0.68,0.72,0.55,0.38,0.45,0.72],
-    "Hurst (H)":   [0.52,0.56,0.48,0.43,0.54,0.49,0.51,0.51,0.47,0.52,0.48],
-    "Allocation":  ["20%","15%","15%","10%","10%","5%","8%","5%","4%","5%","3%"],
-    "Strategy":    ["All","Momentum","Mean-Rev","Mean-Rev","Momentum",
-                    "Mean-Rev","Carry","Carry","Mean-Rev Swing","Carry","Carry"],
-}
 
+@st.cache_data(ttl=300)
+def _load_risk():
+    daily = pd.read_csv(DAILY_CSV, sep=";", decimal=",", index_col=0, parse_dates=True) if os.path.exists(DAILY_CSV) else None
+    summary = pd.read_csv(SUMM_CSV, sep=";", decimal=",", index_col=0) if os.path.exists(SUMM_CSV) else None
+    stress = pd.read_csv(STRESS_CSV, sep=";", decimal=",", index_col=0) if os.path.exists(STRESS_CSV) else None
+    return daily, summary, stress
+
+
+@st.cache_data(ttl=300)
+def _load_market():
+    if not os.path.exists("dataset_ml_ready.csv"):
+        return None
+    return pd.read_csv("dataset_ml_ready.csv", sep=";", decimal=",", index_col=0, parse_dates=True)
+
+
+def _val(summary, key, default=np.nan):
+    try:
+        return float(summary.loc[key, "value"])
+    except Exception:
+        return default
+
+
+# ─── Sections ────────────────────────────────────────────────────────────────
+
+def _render_kpis(daily, summary, risk_ok):
+    c1, c2, c3, c4 = st.columns(4)
+    if risk_ok:
+        var_last = float(daily["VaR_hist"].dropna().iloc[-1]) if "VaR_hist" in daily.columns else np.nan
+        c1.metric("Daily VaR (95%)", f"{var_last:.2%}" if not np.isnan(var_last) else "N/A")
+        c2.metric("Max Drawdown", f"{_val(summary, 'max_drawdown'):.2%}")
+        c3.metric("VaR Breach Rate", f"{_val(summary, 'VaR_backtest_breach_rate'):.1%}")
+        c4.metric("Jours arret circuit", str(int(_val(summary, "stop_trading_days", 0))))
+    else:
+        st.warning("Donnees de risque non disponibles. Lancez run_pipeline.py.")
+        for col in [c1, c2, c3, c4]:
+            col.metric("-", "N/A")
+
+
+def _render_drawdown_and_exposure(daily):
+    if "drawdown" not in daily.columns:
+        return
+    col_l, col_r = st.columns(2)
+    with col_l:
+        st.markdown("#### Drawdown du portefeuille")
+        fig = go.Figure(go.Scatter(
+            x=daily.index, y=daily["drawdown"] * 100,
+            fill="tozeroy", fillcolor="rgba(220,53,69,0.12)",
+            line=dict(color="#dc3545", width=1.5),
+        ))
+        _clean_layout(fig, height=220, yaxis=dict(color="#495057", gridcolor="#e9ecef", title="Drawdown (%)"))
+        st.plotly_chart(fig, use_container_width=True)
+
+    with col_r:
+        st.markdown("#### Multiplicateur d'exposition")
+        fig = go.Figure()
+        if "exposure_final" in daily.columns:
+            fig.add_trace(go.Scatter(x=daily.index, y=daily["exposure_final"],
+                                     line=dict(color="#0052cc", width=1.5), name="Exposition finale"))
+        if "exposure_dd" in daily.columns:
+            fig.add_trace(go.Scatter(x=daily.index, y=daily["exposure_dd"],
+                                     line=dict(color="#6c757d", width=1, dash="dot"), name="DD seul"))
+        fig.add_hline(y=0.5, line_dash="dash", line_color="#f59e0b", annotation_text="Circuit breaker -2%")
+        _clean_layout(fig, height=220,
+                      legend=dict(orientation="h", y=-0.3, font_size=11),
+                      yaxis=dict(color="#495057", gridcolor="#e9ecef", title="Exposition", tickformat=".0%"))
+        st.plotly_chart(fig, use_container_width=True)
+
+
+def _render_var_es(daily):
+    if "VaR_hist" not in daily.columns:
+        return
+    st.divider()
+    st.markdown("#### VaR et ES roulants (252 jours)")
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=daily.index, y=daily["VaR_hist"] * 100,
+                              line=dict(color="#dc3545", width=1.5), name="VaR 95%"))
+    if "ES_hist" in daily.columns:
+        fig.add_trace(go.Scatter(x=daily.index, y=daily["ES_hist"] * 100,
+                                  line=dict(color="#ef4444", width=1, dash="dot"), name="ES 95%"))
+    if "VaR_breach" in daily.columns:
+        b_idx = daily[daily["VaR_breach"] == 1.0].index
+        if len(b_idx):
+            fig.add_trace(go.Scatter(x=b_idx, y=daily.loc[b_idx, "VaR_hist"] * 100,
+                                      mode="markers", marker=dict(color="#dc3545", size=6, symbol="x"),
+                                      name="Breach"))
+    _clean_layout(fig, height=250, hovermode="x unified",
+                  legend=dict(orientation="h", y=-0.3, font_size=11),
+                  yaxis=dict(color="#495057", gridcolor="#e9ecef", title="Perte (%)"))
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def _render_stress_and_corr(daily, stress, risk_ok):
+    if stress is None:
+        return
+    st.divider()
+    col_st, col_corr = st.columns(2)
+    with col_st:
+        st.markdown("#### Stress tests")
+        fig = px.bar(stress.reset_index(), x="index", y="stress_loss",
+                     color="stress_loss", color_continuous_scale="Reds",
+                     labels={"index": "Scenario", "stress_loss": "Perte estimee"})
+        _clean_layout(fig, height=280, showlegend=False, coloraxis_showscale=False)
+        st.plotly_chart(fig, use_container_width=True)
+
+    with col_corr:
+        st.markdown("#### Stress de correlation roulant")
+        if risk_ok and "corr_abs_mean" in daily.columns:
+            fig = go.Figure(go.Scatter(
+                x=daily.index, y=daily["corr_abs_mean"],
+                line=dict(color="#0052cc", width=1.5), name="Corr abs moy",
+            ))
+            fig.add_hline(y=0.35, line_dash="dash", line_color="#f59e0b", annotation_text="Seuil stress")
+            _clean_layout(fig, height=280,
+                          yaxis=dict(color="#495057", gridcolor="#e9ecef", title="Correlation abs moy"))
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.info("Donnees de correlation non disponibles.")
+
+
+def _render_regime_map(df_market):
+    if df_market is None:
+        return
+    st.divider()
+    st.markdown("#### Regime map - Hurst vs Volatilite")
+    latest = df_market.groupby("Pair").last().reset_index()
+    size_col = "Vol_Regime" if "Vol_Regime" in latest.columns else "Vol_20"
+    latest[size_col] = latest[size_col].clip(lower=0.01).fillna(0.5)
+    fig = px.scatter(latest, x="Vol_20", y="Hurst", text="Pair", size=size_col,
+                     color="Hurst", color_continuous_scale="Blues",
+                     labels={"Vol_20": "Volatilite 20j", "Hurst": "Hurst"})
+    fig.add_hrect(y0=0.55, y1=1.0, fillcolor="#28a745", opacity=0.05,
+                  annotation_text="Trend -> Momentum / TSMOM")
+    fig.add_hrect(y0=0.0, y1=0.45, fillcolor="#dc3545", opacity=0.05,
+                  annotation_text="Range -> Mean-Reversion")
+    fig.update_traces(textposition="top center")
+    _clean_layout(fig, height=420, font_color="#495057", coloraxis_showscale=False)
+    fig.update_xaxes(showgrid=True, gridcolor="#e9ecef")
+    fig.update_yaxes(showgrid=True, gridcolor="#e9ecef")
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def _render_alerts(summary, risk_ok, df_market):
+    """Alertes systeme."""
+    st.divider()
+    st.markdown("#### Quant feed - alertes systeme")
+    alerts = []
+
+    if risk_ok:
+        corr_avg = _val(summary, "corr_abs_mean_avg")
+        breach_rate = _val(summary, "VaR_backtest_breach_rate")
+        stop_days = int(_val(summary, "stop_trading_days", 0))
+        if not np.isnan(corr_avg) and corr_avg > 0.6:
+            alerts.append("CRITICAL: Correlation moyenne > 0.60 - risque contagion systemique.")
+        if not np.isnan(breach_rate) and breach_rate > 0.07:
+            alerts.append(f"WARNING: Breach rate VaR = {breach_rate:.1%} > 7%.")
+        if stop_days > 5:
+            alerts.append(f"INFO: {stop_days} jours d'arret circuit breaker.")
+
+    if df_market is not None:
+        latest = df_market.groupby("Pair").last()
+        for pair, row in latest.iterrows():
+            h = row.get("Hurst", np.nan)
+            vr = row.get("Vol_Regime", np.nan)
+            if not np.isnan(h) and h > 0.65:
+                alerts.append(f"SIGNAL: Persistance forte sur {pair} (H={h:.2f}) - Momentum/TSMOM.")
+            if not np.isnan(h) and h < 0.38:
+                alerts.append(f"SIGNAL: Regime range sur {pair} (H={h:.2f}) - Mean-Reversion.")
+            if not np.isnan(vr) and vr > 1.5:
+                alerts.append(f"WARNING: Vol elevee sur {pair} (Vol_Regime={vr:.2f}x).")
+
+    if not alerts:
+        alerts.append("SYSTEM NORMAL: Aucune anomalie detectee.")
+    for alert in alerts[-5:]:
+        st.code(f"> {datetime.now().strftime('%H:%M:%S')} | {alert}")
+
+
+# ─── Point d'entree ──────────────────────────────────────────────────────────
 
 def show():
-    st.title("Market Analysis")
-    st.markdown("---")
+    st.markdown("<h2 style='color:#0052cc;margin-bottom:0'>SYSTEMIC RISK & REGIME RADAR</h2>",
+                unsafe_allow_html=True)
+    st.caption("Analyse des risques extremes et de la cohesion globale du portefeuille.")
 
-    # Load data using utility functions
-    prices_df = load_fx_prices()
+    daily, summary, stress = _load_risk()
+    df_market = _load_market()
+    risk_ok = daily is not None and summary is not None
 
-    st.subheader("Portfolio Correlation Matrix")
+    _render_kpis(daily, summary, risk_ok)
+    st.divider()
 
-    if prices_df is not None and prices_df.shape[1] >= 2:
-        corr = prices_df.corr()
-        pairs_labels = list(corr.columns)
-        corr_matrix = corr.values
-    else:
-        st.warning("CSV files not found — displaying report data")
-        pairs_labels = PAIRS_RAPPORT
-        corr_matrix = np.eye(len(PAIRS_RAPPORT))
+    if risk_ok:
+        _render_drawdown_and_exposure(daily)
+        _render_var_es(daily)
 
-    fig_heat = go.Figure(go.Heatmap(
-        z=corr_matrix,
-        x=pairs_labels, y=pairs_labels,
-        colorscale=[
-            [0.00, "#1a5276"],
-            [0.35, "#2980b9"],
-            [0.50, "#f5f5f5"],
-            [0.65, "#e74c3c"],
-            [1.00, "#922b21"],
-        ],
-        zmid=0, zmin=-1, zmax=1,
-        text=np.round(corr_matrix, 2),
-        texttemplate="%{text}",
-        textfont=dict(size=8),
-        hovertemplate="%{y} / %{x}<br>ρ = %{z:.2f}<extra></extra>",
-        colorbar=dict(title="ρ", thickness=15)
-    ))
-    fig_heat.update_layout(
-        template="plotly_dark", paper_bgcolor="#161b22",
-        height=520, margin=dict(l=0, r=0, t=20, b=0),
-        xaxis=dict(tickangle=-45, tickfont=dict(size=9)),
-        yaxis=dict(tickfont=dict(size=9)),
-    )
-    st.plotly_chart(fig_heat, use_container_width=True)
-
-    if prices_df is not None:
-        n = len(pairs_labels)
-        mask = ~np.eye(n, dtype=bool)
-        rho_mean = corr_matrix[mask].mean()
-        c1, c2, c3 = st.columns(3)
-        with c1:
-            icon = "🟢" if rho_mean < 0.30 else "🔴"
-            st.metric("Average Correlation", f"{rho_mean:.2f}",
-                      f"{icon} {'Target reached' if rho_mean < 0.30 else 'Above 0.30'}")
-        with c2:
-            st.metric("Number of pairs", str(n))
-        with c3:
-            min_corr_pair = corr.abs().replace(1, np.nan).stack().idxmin()
-            st.metric("Least correlated pair",
-                      f"{min_corr_pair[0]} / {min_corr_pair[1]}")
-
-    st.markdown("---")
-
-    st.subheader("Composite Pair Scoring")
-
-    df = pd.DataFrame(SCORES_DATA)
-    st.dataframe(df, use_container_width=True, hide_index=True,
-        column_config={
-            "Total Score": st.column_config.ProgressColumn(
-                "Total Score", min_value=0, max_value=1, format="%.2f"),
-            "Liquidity":   st.column_config.ProgressColumn(
-                "L", min_value=0, max_value=1, format="%.2f"),
-            "Volatility":  st.column_config.ProgressColumn(
-                "V", min_value=0, max_value=1, format="%.2f"),
-            "Correlation": st.column_config.ProgressColumn(
-                "C", min_value=0, max_value=1, format="%.2f"),
-            "Spread":      st.column_config.ProgressColumn(
-                "S", min_value=0, max_value=1, format="%.2f"),
-        }
-    )
-
-    st.markdown("---")
-
-    st.subheader("Hurst Ratio — Market Regimes")
-
-    hurst_vals = df["Hurst (H)"].values
-    bar_colors = ["#3fb950" if h > 0.52 else
-                  "#58a6ff" if h < 0.48 else "#d29922"
-                  for h in hurst_vals]
-
-    fig_hurst = go.Figure()
-    fig_hurst.add_trace(go.Bar(
-        x=PAIRS_RAPPORT, y=hurst_vals,
-        marker_color=bar_colors,
-        text=[f"{h:.2f}" for h in hurst_vals],
-        textposition="outside",
-    ))
-    fig_hurst.add_hline(y=0.5, line_dash="dash", line_color="white",
-                        annotation_text="H=0.5", annotation_position="right")
-    fig_hurst.add_hrect(y0=0.5, y1=0.65,
-                        fillcolor="rgba(63,185,80,0.07)", line_width=0)
-    fig_hurst.add_hrect(y0=0.35, y1=0.5,
-                        fillcolor="rgba(88,166,255,0.07)", line_width=0)
-    fig_hurst.update_layout(
-        template="plotly_dark", paper_bgcolor="#161b22",
-        plot_bgcolor="#0d1117", height=360,
-        xaxis=dict(tickangle=-30, gridcolor="#21262d"),
-        yaxis=dict(title="Hurst (H)", gridcolor="#21262d", range=[0.30, 0.70]),
-        margin=dict(l=0, r=60, t=20, b=0), showlegend=False,
-    )
-    st.plotly_chart(fig_hurst, use_container_width=True)
-
-    st.markdown("---")
-
-    st.subheader("Efficient Frontier — Markowitz Optimization")
-
-    returns_df = load_fx_returns()
-    
-    if returns_df is not None:
-        with st.spinner("Computing efficient frontier..."):
-            try:
-                results = compute_markowitz_optimization(returns_df)
-                
-                mu = results['mu']
-                Sigma = results['Sigma']
-                w_minvar = results['w_minvar']
-                w_maxsharpe = results['w_maxsharpe']
-                frontier_vol = results['frontier_vol']
-                frontier_ret = results['frontier_ret']
-                col_names = results['column_names']
-
-                fig_mk = go.Figure()
-
-                fig_mk.add_trace(go.Scatter(
-                    x=frontier_vol, y=frontier_ret,
-                    mode="lines", name="Efficient Frontier",
-                    line=dict(color="#58a6ff", width=2.5)
-                ))
-                fig_mk.add_trace(go.Scatter(
-                    x=[port_vol(w_minvar, Sigma)],
-                    y=[port_return(w_minvar, mu)],
-                    mode="markers", name="Minimum Variance",
-                    marker=dict(color="#3fb950", size=14, symbol="star")
-                ))
-                fig_mk.add_trace(go.Scatter(
-                    x=[port_vol(w_maxsharpe, Sigma)],
-                    y=[port_return(w_maxsharpe, mu)],
-                    mode="markers", name="Maximum Sharpe",
-                    marker=dict(color="#f85149", size=14, symbol="star")
-                ))
-
-                fig_mk.update_layout(
-                    template="plotly_dark", paper_bgcolor="#161b22",
-                    plot_bgcolor="#0d1117", height=400,
-                    xaxis=dict(title="Risk (Annualized Volatility)",
-                            gridcolor="#21262d", tickformat=".1%"),
-                    yaxis=dict(title="Annualized Return",
-                            gridcolor="#21262d", tickformat=".1%"),
-                    legend=dict(orientation="h", y=1.05),
-                    margin=dict(l=0, r=0, t=30, b=0),
-                )
-                st.plotly_chart(fig_mk, use_container_width=True)
-
-                st.subheader("Optimal Allocations per Pair")
-                weights_df = pd.DataFrame({
-                    "Pair":         list(col_names),
-                    "Min Variance": [f"{w*100:.1f}%" for w in w_minvar],
-                    "Max Sharpe":   [f"{w*100:.1f}%" for w in w_maxsharpe],
-                })
-                weights_df = weights_df[weights_df["Max Sharpe"] != "0.0%"]
-                st.dataframe(weights_df, use_container_width=True,
-                            hide_index=True)
-
-            except Exception as e:
-                st.error(f"Markowitz computation error: {e}")
-    else:
-        st.warning("fx_returns.csv not found — run returns.py first")
+    _render_stress_and_corr(daily, stress, risk_ok)
+    _render_regime_map(df_market)
+    _render_alerts(summary, risk_ok, df_market)

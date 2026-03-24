@@ -1,0 +1,6 @@
+fold,IC,p_value,type
+1,-0.0312,0.0558,walk_forward
+2,0.0494,0.0025,walk_forward
+3,-0.0976,0.0,walk_forward
+4,0.1428,0.0,walk_forward
+holdout_oos,0.3017,0.0,holdout
